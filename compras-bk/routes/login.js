@@ -34,6 +34,7 @@ return res.status(401).json({
 });
 ////////////////
 router.post('/num',(req,res)=>{
+  console.log('este es el body',req.body)
   const {num,pass}= req.body;
   User.findOne({num:num, active:true})
   .then(data=>{
@@ -43,6 +44,7 @@ router.post('/num',(req,res)=>{
     err: {},
     message: "Email incorrecto"
   });
+
   const passwordIsValid = bcrypt.compareSync(pass, data.pass);
   if(!passwordIsValid) return res.status(401).json({
     error: {},

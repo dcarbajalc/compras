@@ -6,8 +6,9 @@ const User = require ('../models/User');
 const bcrypt = require ('bcrypt');
 
 
+
 mongoose
-  .connect('mongodb://localhost/compras-bk', {useNewUrlParser: true})
+  .connect(process.env.DB, {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -57,9 +58,10 @@ mongoose
 Role.create({num: 1, nom: 'Administrador'})
   .then(roles =>{
     console.log('Se creo el Rol :', roles);
-    Parametro.create({num: 1,descri:'El Id del Rol que tomará por Default al crear Usuarios...', value:'1'})
+    Parametro.create(
+      {num: 1,descri:'El Id del Rol que tomará por Default al crear Usuarios...', value:'1'})
 .then (rol =>{
-  console.log(rol);
+  console.log('Se creo el parametro:',rol);
 });
   })
   .catch(err =>{
@@ -76,5 +78,5 @@ Role.create({num: 1, nom: 'Administrador'})
 // Termina el registro del usuario
 
 
-console.log('fin del proceso')
+//console.log('fin del proceso')
 // mongoose.connection.close();

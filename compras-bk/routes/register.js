@@ -7,7 +7,7 @@ const Parametro = require('../models/Parametro');
 
 /* GET home page */
 router.post('/', (req, res) => {
-  
+  console.log('este es el body', req.body)
   let {nombre, email, pass}= req.body;
   const bSalt = 10;
   const salt = bcrypt.genSaltSync(bSalt);
@@ -30,19 +30,19 @@ router.post('/', (req, res) => {
             res.send({res:respuestafinal,message:'Te registraste correctamente, eres un crack!!!'})
           })
           .catch(errorfinal=>{
-            res.send({err:errorfinal,message:'Ocurrio un error para registrarte :(, dile a TI que tu correo ya existe...'})
+            res.send({err:errorfinal,message:'No se puede crear este usuario!!! el mail ya existe'})
           })
       })
       .catch( errrr=>{
-        res.send({err:errrr, message:'Ocurrio un error al buscar este nro de rol... dile a TI que ni existe el rol que tiene definido'})
+        res.send({err:errrr, message:'ni existe el rol que tienes parametrizado'})
       })
   })
   .catch( errr=>{
-    res.send({err:errr, message:'Ocurrió un error al Buscar al parámetro... mejor dile a TI que no ha parametrizado'})
+    res.send({err:errr, message:'No hay parámetros'})
   })
   })
   .catch(err=>{
-    res.send({err:err, message:'Ocurrio un lugar al buscar usuarios!!!.... dile a TI que no ha empezado'})
+    res.send({err:err, message:'ni siquiera se puede buscar al usuario'})
   })
 
 

@@ -8,10 +8,10 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
-
+const cors         = require('cors');
 
 mongoose
-  .connect('mongodb://localhost/compras-bk', {useNewUrlParser: true})
+  .connect(process.env.DB, {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -23,6 +23,13 @@ const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 const app = express();
+
+
+app.use(cors({
+  origin: [process.env.FRONT]
+}));
+
+
 
 // Middleware Setup
 app.use(logger('dev'));
@@ -59,5 +66,12 @@ app.use('/api/register', register);
 
 const login = require('./routes/login');
 app.use('/api/login', login);
+
+const menu = require('./routes/menus');
+app.use('/api/menu', menu);
+
+const public = require('./routes/public');
+app.use('/api/public', public);
+
 
 module.exports = app;
