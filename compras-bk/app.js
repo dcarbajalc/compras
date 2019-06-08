@@ -73,5 +73,8 @@ app.use('/api/menu', menu);
 const public = require('./routes/public');
 app.use('/api/public', public);
 
+const roles = require('./routes/roles');
+app.use('/api/roles', roles);
+
 
 module.exports = app;

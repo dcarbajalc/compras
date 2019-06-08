@@ -22,10 +22,11 @@ router.get('/menusxusr',(req,res)=>{
     .select({ menu: 1,id_menu:1, _id:0})
     .populate({path: 'menu', options: { sort: { 'padre': 1, 'orden':1 } } })
     .then(rr=>{
-  let n = rr.length
+  let n = rr.length  
   let nuevo =[];
+  console.log('esto es rr: ',rr);
   for (i = 0; i<n ; i++)
-  {nuevo.push(rr[i].menu)};
+  {rr[i].menu!== null &&  nuevo.push(rr[i].menu); console.log(i, rr[13])}; // como porqué verga me cambió un ID???
   nuevo.sort(function (a, b) {
   if (a.padre > b.padre) {
     return 1;
