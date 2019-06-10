@@ -4,7 +4,7 @@ const Role = require('../models/Role');
 const Session = require("../helpers/session");
 const User = require ('../models/User')
 
-router.get ('/',Session.verifyToken, (req,res)=>{
+router.get ('/',Session.verifyToken,(req,res)=>{
   User.aggregate(
     [{$group: {_id:"$rol"}}])
   .then (rolesEnUsuarios=>{
@@ -40,7 +40,6 @@ data.sort(function (a, b) {
   if (a.num < b.num) {
     return -1;
   }
-
 })
 
  res.send(data) 
@@ -56,7 +55,7 @@ data.sort(function (a, b) {
 .catch(error=>{res.send({mssg:'No se pudiseron agrupar los roles en usuarios',err:error})})  
 });
 
-router.post('/create',Session.verifyToken, (req,res) =>{
+router.post('/create',Session.verifyToken, Session.hasPermission('/roles'),(req,res) =>{
   console.log('Este es el body para crear perfiles: ',req.body);
   let {nom}= req.body;
   Role.findOne({})
@@ -70,7 +69,7 @@ router.post('/create',Session.verifyToken, (req,res) =>{
     console.log('Se crearon este rol: num:', nro, 'nom:', nom)
     res.send(rol);
   })
-  .catch(erro=>{º
+  .catch(erro=>{
     res.send(erro);
   })
 })
@@ -78,6 +77,29 @@ router.post('/create',Session.verifyToken, (req,res) =>{
     res.send ('no se puede encontrar al rol', err)
   })
 
+});
+
+router.patch('/edit', Session.verifyToken, Session.hasPermission('/roles'), (req,res)=>{
+
+  let {_id, nom} = req.body;
+  Role.findByIdAndUpdate({_id: _id}, {$set:{nom: nom}})
+  .then (data =>{
+    res.send(data);
+  })
+  .then (err=>{
+    console.log('Ocurrio esto al momento de patchear los roles : ', err)
+  })
+});
+
+router.delete('/remove/:_id', Session.verifyToken, Session.hasPermission('/roles'), (req,res)=>{
+  let {_id} = req.params;
+  Role.findByIdAndDelete(_id)
+  .then(resp=>{
+    res.send({msg:'se borro correctamente', res})
+  })
+  .catch(err=>{
+    res.send({msg:'no se pudo eliminar el perfil', err})
+  })
 })
 
 module.exports = router;

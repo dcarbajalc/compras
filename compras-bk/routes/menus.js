@@ -7,12 +7,8 @@ const User = require ('../models/User');
 
 
 router.get('/menusxusr',(req,res)=>{
-
-
   let {user} = req.headers;
-
   let num = user;
- 
   User
   .findOne({num:num})
   .then(ru =>{
@@ -26,7 +22,7 @@ router.get('/menusxusr',(req,res)=>{
   let nuevo =[];
   console.log('esto es rr: ',rr);
   for (i = 0; i<n ; i++)
-  {rr[i].menu!== null &&  nuevo.push(rr[i].menu); console.log(i, rr[13])}; // como porqué verga me cambió un ID???
+  {rr[i].menu!== null &&  nuevo.push(rr[i].menu)}; // como porqué verga me cambió un ID???
   nuevo.sort(function (a, b) {
   if (a.padre > b.padre) {
     return 1;

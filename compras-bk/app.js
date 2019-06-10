@@ -76,5 +76,8 @@ app.use('/api/public', public);
 const roles = require('./routes/roles');
 app.use('/api/roles', roles);
 
+const menuxrol = require('./routes/menuxrol');
+app.use('/api/menuxrol', menuxrol);
+
 
 module.exports = app;
