@@ -79,5 +79,11 @@ app.use('/api/roles', roles);
 const menuxrol = require('./routes/menuxrol');
 app.use('/api/menuxrol', menuxrol);
 
+const password = require('./routes/password');
+app.use('/api/password', password);
+
+const usuarios = require('./routes/users');
+app.use('/api/usuarios', usuarios);
+
 
 module.exports = app;
